@@ -20,7 +20,7 @@ const data = [
     },
     {
         "id": 6,
-        "title": "About color spaces",
+        "title": "RGB space",
         "text": ["Color spaces are mathematical objects. They allow us to treat colors as numbers. So we can do things like add two colors together. Color spaces can be transformed from one to the other if both color spaces are linear. The color space, which is used to show items on our displays are not linear. So we need to convert the color space into linear RGB. Then we can convert it into LMS.",
             "To convert from the RGB value we see on screen to linear RGB we use the following formula"]
     },
@@ -52,7 +52,7 @@ const data = [
     {
         "id": 9,
         "title": "Projecting onto the plane",
-        "text": ["If we wanted to project one vector on another it would be a simple matter of taking their dot products. In this case we need to project a vector onto a plane. If v is the original vector and p is the projection of v on the normal, the projected vector as v-p. The above pixel value, when projected onto the plane given by the normal in LMS space is"]
+        "text": ["If we wanted to project one vector on another it would be a simple matter of taking their dot products. In this case we need to project a vector onto a plane. If v is the original vector and p is the projection of v on the normal, the projected vector is v-p. The above pixel value, when projected onto the plane given by the normal in LMS space is"]
     },
     {
         "id": 10,

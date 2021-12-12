@@ -36,15 +36,18 @@ export const convertRGBToLMS = (imgData, h, w) => {
  * @param {array} pixel 
  */
 export const convertSingleRGBToLMS = (pixel) => {
-    const RGB2LMS = [[0.31399022, 0.63951294, 0.04649755], [0.15537241, 0.75789446, 0.08670142], [0.01775239, 0.10944209, 0.87256922]]
-    const workingCopy = Array.from(pixel)
-    const l = RGB2LMS[0][0] * pixel[0] + RGB2LMS[0][1] * pixel[1] + RGB2LMS[0][2] * pixel[2];
-    const m = RGB2LMS[1][0] * pixel[0] + RGB2LMS[1][1] * pixel[1] + RGB2LMS[1][2] * pixel[2];
-    const s = RGB2LMS[2][0] * pixel[0] + RGB2LMS[2][1] * pixel[1] + RGB2LMS[2][2] * pixel[2];
-    workingCopy[R_OFFSET] = l;
-    workingCopy[G_OFFSET] = m;
-    workingCopy[B_OFFSET] = s;
-    return workingCopy
+    if (pixel.indexOf(NaN) === -1) {
+        const RGB2LMS = [[0.31399022, 0.63951294, 0.04649755], [0.15537241, 0.75789446, 0.08670142], [0.01775239, 0.10944209, 0.87256922]]
+        const workingCopy = Array.from(pixel)
+        const l = RGB2LMS[0][0] * pixel[0] + RGB2LMS[0][1] * pixel[1] + RGB2LMS[0][2] * pixel[2];
+        const m = RGB2LMS[1][0] * pixel[0] + RGB2LMS[1][1] * pixel[1] + RGB2LMS[1][2] * pixel[2];
+        const s = RGB2LMS[2][0] * pixel[0] + RGB2LMS[2][1] * pixel[1] + RGB2LMS[2][2] * pixel[2];
+        workingCopy[R_OFFSET] = l;
+        workingCopy[G_OFFSET] = m;
+        workingCopy[B_OFFSET] = s;
+        return workingCopy
+    }
+    return [0,0,0];
 }
 
 export const convertLMSToRGB = (imgData, h, w) => {
