@@ -1,6 +1,7 @@
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import React from "react";
 import { convertSingleRGBToLMS } from "../../compute/ColorSpace";
+import Equation from "../Equation";
 
 import { Wrapper, Content } from "./LMS.styles";
 
@@ -19,11 +20,7 @@ const LMS = ({ title, data, pixel, mathConfig }) => {
             <Content>
                 <h3>{title}</h3>
                 {textToBeDisplayed}
-                <MathJaxContext config={mathConfig} version={3}>
-                    <MathJax inline dynamic>
-                        <span>{`$$ (${convertedValue[0]}) \\hat{i} + (${convertedValue[1]}) \\hat{j} + (${convertedValue[2]}) \\hat{k} $$`}</span>
-                    </MathJax>
-                </MathJaxContext>
+                <Equation values={convertedValue} mathConfig={mathConfig} />
             </Content>
         </Wrapper>
     )

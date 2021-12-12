@@ -1,7 +1,7 @@
-import { MathJaxContext, MathJax } from "better-react-mathjax";
 import React from "react";
 
 import { Wrapper, Content } from "./Projection.styles";
+import Equation from "../Equation";
 
 import { calculateNormal, projectColorOnNormal } from "../../compute/Normal";
 import { convertSingleRGBToLMS } from "../../compute/ColorSpace";
@@ -21,11 +21,7 @@ const Projection = ({ title, data, invariant, pixel, mathConfig }) => {
             <Content>
                 <h3>{title}</h3>
                 {textToBeDisplayed}
-                <MathJaxContext version={3} config={mathConfig}>
-                    <MathJax inline dynamic>
-                        <span>{`$$ (${projectedValue[0]}) \\hat{i} + (${projectedValue[1]}) \\hat{j} + (${projectedValue[2]}) \\hat{k} $$`}</span>
-                    </MathJax>
-                </MathJaxContext>
+                <Equation values={projectedValue} mathConfig={mathConfig} />
             </Content>
         </Wrapper>
     )

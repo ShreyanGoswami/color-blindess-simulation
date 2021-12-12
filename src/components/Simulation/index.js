@@ -70,8 +70,8 @@ const Simulation = ({ title, data, invariant }) => {
                 </div>
                 <img ref={img} onLoad={drawImage} alt="" hidden></img>
                 <div className="gap-below mx-auto">
-                    <input className="col col-lg-4" type="file" id="formFile" onChange={handleImage} />
-                    <Button className="col col-lg-2" onClick={simulate} disabled={loading}>Simulate</Button>
+                    <input className="col col-md-6 gap-below-responsive" type="file" id="formFile" onChange={handleImage} />
+                    <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
             </Content>
             {loading && <Spinner />}
