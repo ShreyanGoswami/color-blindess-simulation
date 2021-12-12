@@ -1,4 +1,3 @@
-import { MathJax, MathJaxContext } from "better-react-mathjax";
 import React from "react";
 import { convertSingleRGBToLMS } from "../../compute/ColorSpace";
 import Equation from "../Equation";
