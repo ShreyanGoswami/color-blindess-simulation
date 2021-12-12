@@ -1,15 +1,19 @@
-import React, { createRef } from "react";
+import React, { createRef, useState } from "react";
 import { Button } from "react-bootstrap";
+import Spinner from "./../Spinner";
 
 import { Wrapper, Content } from "./Simulation.styles";
 
-import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS, test, removeGamma } from "../../compute/ColorSpace";
+import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS } from "../../compute/ColorSpace";
 import { calculateNormal } from "../../compute/Normal";
 
-const Simulation = ({ title, data, normal }) => {
+const Simulation = ({ title, data, invariant }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
+    const canvasAfter = createRef(null);
+    const [loading, setLoading] = useState(false);
+
     const img = createRef(new Image());
 
     const handleImage = (e) => {
@@ -26,21 +30,29 @@ const Simulation = ({ title, data, normal }) => {
     }
 
     const simulate = () => {
-        const ctx = canvas.current.getContext('2d');
+        setLoading(() => true);
+        let ctx = canvas.current.getContext('2d');
         const h = img.current.height;
         const w = img.current.width;
-        let updatedImage = convertRGBToLMS(ctx.getImageData(0,0,w,h).data.slice(), h, w)
-        
-        normal = (calculateNormal(convertSingleRGBToLMS(normal)));
+        let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
+        console.log(invariant);
+        const normal = (calculateNormal(convertSingleRGBToLMS(invariant)));
         console.log('Normal ' + normal);
         updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO check this
-        
+
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
         updatedImage = convertToRGB(updatedImage, h, w);
         console.log('Finished simulation');
+
+        ctx = canvasAfter.current.getContext('2d');
+        ctx.canvas.height = img.current.height;
+        ctx.canvas.width = img.current.width;
         const simulatedImage = new ImageData(Uint8ClampedArray.from(updatedImage), w, h);
+
         ctx.putImageData(simulatedImage, 0, 0);
+
+        setLoading(() => false);
     }
 
     for (let i = 0; i < data.length; i++) {
@@ -52,13 +64,17 @@ const Simulation = ({ title, data, normal }) => {
             <Content className="row">
                 <h3>{title}</h3>
                 {textToBeDisplayed}
-                <canvas ref={canvas}></canvas>
-                <img ref={img} onLoad={drawImage} alt="" hidden></img>
-                <div className="mb-3">
-                    <input className="form-control" type="file" id="formFile" onChange={handleImage} />
+                <div className="center-items">
+                    <canvas ref={canvas} className="canvas"></canvas>
+                    <canvas ref={canvasAfter} className="canvas"></canvas>
                 </div>
-                <Button onClick={simulate}>Simulate</Button>
+                <img ref={img} onLoad={drawImage} alt="" hidden></img>
+                <div className="gap-below mx-auto">
+                    <input className="col col-lg-4" type="file" id="formFile" onChange={handleImage} />
+                    <Button className="col col-lg-2" onClick={simulate} disabled={loading}>Simulate</Button>
+                </div>
             </Content>
+            {loading && <Spinner />}
         </Wrapper>
     )
 

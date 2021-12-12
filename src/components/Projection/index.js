@@ -3,16 +3,17 @@ import React from "react";
 
 import { Wrapper, Content } from "./Projection.styles";
 
-import { projectColorOnNormal } from "../../compute/Normal";
+import { calculateNormal, projectColorOnNormal } from "../../compute/Normal";
 import { convertSingleRGBToLMS } from "../../compute/ColorSpace";
 
-const Projection = ({ title, data, normal, pixel, mathConfig }) => {
+const Projection = ({ title, data, invariant, pixel, mathConfig }) => {
 
     const textToBeDisplayed = [];
 
     for (let i = 0; i < data.length; i++) {
         textToBeDisplayed.push(<p key={i}>{data[i]}</p>);
     }
+    const normal = calculateNormal(convertSingleRGBToLMS(invariant));
     const projectedValue = projectColorOnNormal(convertSingleRGBToLMS(normal), pixel);
 
     return (
@@ -24,7 +25,6 @@ const Projection = ({ title, data, normal, pixel, mathConfig }) => {
                     <MathJax inline dynamic>
                         <span>{`$$ (${projectedValue[0]}) \\hat{i} + (${projectedValue[1]}) \\hat{j} + (${projectedValue[2]}) \\hat{k} $$`}</span>
                     </MathJax>
-                    <b>Note: The normal must also be converted into the LMS space</b>
                 </MathJaxContext>
             </Content>
         </Wrapper>

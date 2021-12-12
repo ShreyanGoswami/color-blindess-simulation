@@ -3,6 +3,8 @@ import Home from './components/Home';
 
 import { useEffect } from 'react';
 
+import { GlobalStyle } from './GlobalStyles';
+
 function App() {
 
   useEffect(() => {
@@ -12,6 +14,7 @@ function App() {
   return (
     <>
     <Home/>
+    <GlobalStyle></GlobalStyle>
     </>
   );
 }

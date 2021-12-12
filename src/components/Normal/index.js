@@ -3,7 +3,6 @@ import React, { createRef, useState } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 import { Wrapper, Content } from "./Normal.styles";
 import { calculateNormal } from "./../../compute/Normal"
-import { removeGamma } from "../../compute/ColorSpace";
 
 const Normal = ({ title, data, mathConfig, callback }) => {
 
@@ -21,10 +20,11 @@ const Normal = ({ title, data, mathConfig, callback }) => {
 
     const computeNormal = () => {
         // TODO check empty
-        const res = calculateNormal([r.current.value, g.current.value, b.current.value]);
+        const invariant = [r.current.value, g.current.value, b.current.value];
+        const res = calculateNormal(invariant);
         setState(res);
         if (callback !== undefined) {
-            callback(res);
+            callback(invariant);
         }
     }
 
@@ -55,6 +55,7 @@ const Normal = ({ title, data, mathConfig, callback }) => {
                     <MathJax inline dynamic>
                     <span>{`$$ (${state[0]}) \\hat{i} + (${state[1]}) \\hat{j} + (${state[2]}) \\hat{k} $$`}</span>
                     </MathJax>
+                    <p><b>Note: The normal calculated in this step is in the RGB color space. You might think that we can transform the normal into LMS color space and then perform the simulation. However, that would not be correct. Can you think why?</b></p>
                 </MathJaxContext>
                 </div>
             </Content>
