@@ -44,9 +44,9 @@ const Home = () => {
         <Info title={data[getId(1, data)]["title"]} data={data[getId(1, data)]["text"]}></Info>
         <Info title={data[getId(2, data)]["title"]} data={data[getId(2, data)]["text"]}></Info>
         <Info title={data[getId(3, data)]["title"]} data={data[getId(3, data)]["text"]}></Info>
-        <ColorSpace title={data[getId(6, data)]["title"]} data={data[getId(6, data)]["text"]} mathConfig={mathJaxConfig} callback={setPixel}/>
         <Info title={data[getId(4, data)]["title"]} data={data[getId(4, data)]["text"]}></Info>
         <Normal title={data[getId(5, data)]["title"]} data={data[getId(5, data)]["text"]} mathConfig={mathJaxConfig} callback={setInvariant}></Normal>
+        <ColorSpace title={data[getId(6, data)]["title"]} data={data[getId(6, data)]["text"]} mathConfig={mathJaxConfig} callback={setPixel}/>
         <LMS title={data[getId(7, data)]["title"]} data={data[getId(7, data)]["text"]} pixel={pixel} mathConfig={mathJaxConfig}></LMS>
         <Projection title={data[getId(9, data)]["title"]} data={data[getId(9, data)]["text"]} pixel={pixel} invariant={invariant} mathConfig={mathJaxConfig}/>
         <Simulation title={data[getId(10, data)]["title"]} data={data[getId(10, data)]["text"]} invariant={invariant}></Simulation>
