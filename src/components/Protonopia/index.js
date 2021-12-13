@@ -1,6 +1,5 @@
 import React, { createRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import Spinner from "./../Spinner";
 
 import { Wrapper, Content } from "./Protonopia.styles";
 
