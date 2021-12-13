@@ -15,7 +15,7 @@ const data = [
     {
         "id": 3,
         "title": "Types of color blindness",
-        "text": ["The types of color blindness can be specified by first knowing how many different types of cones are not working for an individual. A person who has all three types of cones working normally is referred to as a trichromat. A person who has two types of cones working is referred to as a dichromat. Finally, the most rare of them all is a monochromat who has one type of cone working. A dichromat is further classified into Protonopia, who has a defective L cone, Deuteranopia,  who has a defective M cone, Tritanopia, who has a defective S cone.",
+        "text": ["The types of color blindness can be specified by first knowing how many different types of cones are not working for an individual. A person who has all three types of cones working normally is referred to as a trichromat. A person who has two types of cones working is referred to as a dichromat. Finally, the most rare of them all is a monochromat who has one type of cone working. A dichromat is further classified into Protanopia, who has a defective L cone, Deuteranopia,  who has a defective M cone, Tritanopia, who has a defective S cone.",
             "Most common are the dichromats, who have a weak/missing cone. Out of that red-green is the most common. As we will see later, by choosing the correct invariant color we can simulate any type of dichromatic vision"]
     },
     {
@@ -38,7 +38,7 @@ const data = [
         "title": "Step 1: Finding the plane",
         "text": ["To find the color space of a color blind person we need to find three points that we know would be in their color space. And fortunately we can do that.",
             "Studies have shown that a color blind person sees white and black colors as a trichromat would. So we are going to fix (0,0,0) and (1,1,1) as two points. What about the third point? The third point would be a color that a color blind person sees just as a trichromat would.",
-            "Here, our knowledge of the different type of color blindness comes in. If a person is red-green deficiet i.e a protanope, we know that they won't have any issues seeing blue color. Hence, to simulate protonopia, we can fix the third point as a blue color. A pure blue would be (0,0,255) or (0,0,1) in RGB",
+            "Here, our knowledge of the different type of color blindness comes in. If a person is red-green deficiet i.e a protanope, we know that they won't have any issues seeing blue color. Hence, to simulate Protanopia, we can fix the third point as a blue color. A pure blue would be (0,0,255) or (0,0,1) in RGB",
             "To calculate the normal to the plane, we need an invariant color that will form the third point on the plane. To derive such a normal in the RGB space enter values between (0,0,0) and (1,1,1)"]
     },
     {
@@ -63,9 +63,10 @@ const data = [
     },
     {
         "id": 11,
-        "title": "Protonopia",
-        "text": ["Now that we understand the individual steps, we are now ready to see this technique in action. Protonopia or red-green deficiency is the most common color blindess. People with this condition don't see the color red as how a trichromat would. For them it looks like a yellow color. One of the common problems with such a deficiency is the difficulty to pick ripe fruits in particular apples. ",
-            "In this section, the plane is fixed and all you have to do is upload an image and click the Simulate button"]
+        "title": "Taking an eye test",
+        "text": ["Now that we understand the individual steps, we are now ready to see this technique in action. Protanopia or red-green deficiency is the most common color blindess. People with this condition don't see the color red as how a trichromat would. For them it looks like a yellow color. One of the common problems with such a deficiency is the difficulty to pick ripe fruits in particular apples.",
+            "The Ishihara test is a color perception test to detect red-green deficiency. You might have seen the image below on the internet. It was named after its designer, Shinobu Ishihara, a professor at the University of Tokyo, who first published his tests in 1917. The test consists of identifying the number in the image. For someone with protanopia, they would not be able to distinguish the red from the surrounding greens.",
+            "In this section, the plane and image are fixed. All you have to do is click the Simulate button. If the simulation is proper a trichromat would fail the test as well."]
     }
 ];
 
