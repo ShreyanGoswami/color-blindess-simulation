@@ -12,6 +12,8 @@ import data from "../assets/data";
 import ColorSpace from "./ColorSpace";
 import Simulation from "./Simulation";
 
+import test from "./../assets/test1.jpg"
+
 const Home = () => {
 
     const mathJaxConfig = {
@@ -54,7 +56,7 @@ const Home = () => {
         <LMS title={data[getId(7, data)][title]} data={data[getId(7, data)][text]} pixel={pixel} mathConfig={mathJaxConfig}></LMS>
         <Projection title={data[getId(9, data)][title]} data={data[getId(9, data)][text]} pixel={pixel} invariant={invariant} mathConfig={mathJaxConfig}/>
         <Simulation title={data[getId(10, data)][title]} data={data[getId(10, data)][text]} invariant={invariant}></Simulation>
-        <Protonopia title={data[getId(11, data)][title]} data={data[getId(11, data)][text]} invariant={[0,0,1]}></Protonopia>
+        <Protonopia title={data[getId(11, data)][title]} data={data[getId(11, data)][text]} invariant={[0,0,1]} imageForSimulation={test}></Protonopia>
     </Wrapper>);
 }
 

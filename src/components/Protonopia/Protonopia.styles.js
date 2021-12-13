@@ -22,10 +22,4 @@ export const Content = styled.div`
     canvas {
         margin-left:20px;
     }
-
-    .gap-below-responsive {
-        @media screen and (max-width:768px) {
-            margin-bottom:10px;
-        }
-    }
 `;

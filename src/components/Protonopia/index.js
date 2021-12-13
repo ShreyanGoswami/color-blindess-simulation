@@ -1,13 +1,12 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Spinner from "./../Spinner";
 
 import { Wrapper, Content } from "./Protonopia.styles";
 
 import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS } from "../../compute/ColorSpace";
 import { calculateNormal } from "../../compute/Normal";
 
-const Protonopia = ({ title, data, invariant }) => {
+const Protonopia = ({ title, data, imageForSimulation, invariant }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
@@ -16,11 +15,9 @@ const Protonopia = ({ title, data, invariant }) => {
 
     const img = createRef(new Image());
 
-    const handleImage = (e) => {
-        if (e.target.files && e.target.files.item(0)) {
-            img.current.src = URL.createObjectURL(e.target.files[0]);
-        }
-    }
+    useEffect(() => {
+        img.current.src = imageForSimulation;
+    },[img, imageForSimulation]);
 
     const drawImage = () => {
         const ctx = canvas.current.getContext('2d');
@@ -69,12 +66,11 @@ const Protonopia = ({ title, data, invariant }) => {
                     <canvas ref={canvasAfter} className="canvas"></canvas>
                 </div>
                 <img ref={img} onLoad={drawImage} alt="" hidden></img>
-                <div className="gap-below mx-auto">
-                    <input className="col col-md-6 gap-below-responsive" type="file" id="formFile" onChange={handleImage} />
+                <div className="gap-below mx-auto center-items">
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
+                <p>In the same vein, you can supply an invariant color in Step 1 and try to simulate the other deficiencies. Remember to perform the simulation correctly identify a color that is the same for a trichromat and a dichroma.</p>
             </Content>
-            {loading && <Spinner />}
         </Wrapper>
     )
 
