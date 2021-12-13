@@ -3,7 +3,7 @@ const data = [
         "id": 1,
         "title": "Introduction",
         "text": ["In this tutorial we will learn an application of color space and that is, how to simulate color blindness. Color blindness is a hereditary condition, more common in males than females. Around 1 in 12 males are affected by color blindness while 1 in 200 females are affected by color blindness. The reason more males are impacted is because color blindness occurs when there is a defect in the X chromosome. Since males have one X chromosome compared to two in females, males are more susceptible to this condition.",
-            "Simulating color blindness is an interesting application of using the color space in an innovative way as we will see later in the tutorial. The main reason why this can be done is due to the linearity of color space."]
+            "Simulating color blindness is an interesting application of using the color space in an innovative way as we will see in the tutorial. The main reason such a simulation is possible is due to the linearity of color space. Hence, colors can be added and transformed just like a vector space."]
     },
     {
         "id": 2,

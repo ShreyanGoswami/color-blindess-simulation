@@ -31,7 +31,7 @@ const Normal = ({ title, data, mathConfig, callback }) => {
     return (
         <Wrapper className="d-grid gap-3 pt-3 mb-4 px-4 bg-light border rounded-3">
             <Content className="row">
-                <h3>{title}</h3>
+                <h3 id="link-1">{title}</h3>
                 {textToBeDisplayed}
                 <div className="input-group input-group-sm text-center">
                     <InputGroup className="col col-lg-2">

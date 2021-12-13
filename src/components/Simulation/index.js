@@ -64,6 +64,7 @@ const Simulation = ({ title, data, invariant }) => {
             <Content className="row">
                 <h3>{title}</h3>
                 {textToBeDisplayed}
+                <p>Ensure you have calculated the <a href="#link-1">normal</a> above</p>
                 <div className="center-items">
                     <canvas ref={canvas} className="canvas"></canvas>
                     <canvas ref={canvasAfter} className="canvas"></canvas>
