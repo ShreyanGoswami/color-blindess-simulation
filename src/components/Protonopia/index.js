@@ -73,8 +73,8 @@ const Protonopia = ({ title, data, invariant }) => {
                     <input className="col col-md-6 gap-below-responsive" type="file" id="formFile" onChange={handleImage} />
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
+                <p>In the same vein, you can supply an invariant point in Step 1 and try to simulate the other deficiencies.</p>
             </Content>
-            {loading && <Spinner />}
         </Wrapper>
     )
 
