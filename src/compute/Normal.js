@@ -8,13 +8,13 @@ export const calculateNormal = (invariant) => {
 }
 
 export const projectColorOnNormal = (normal, color) => {
-
-    if (!isValidNormal(normal)) {
+    const norm = math.norm(normal)
+    if (norm === 0) {
         return [0,0,0];
     }
     if (normal !== undefined && color !== undefined && color.indexOf(NaN) === -1) {
         // ensure both normal and color are in the same color space
-        const res = math.dotMultiply((math.dot(color, normal) / math.pow(math.norm(normal), 2)), normal)
+        const res = math.dotMultiply((math.dot(color, normal) / math.pow(norm, 2)), normal)
         for (let i=0;i<color.length;i++) {
             color[i] -= res[i];
         }
@@ -22,7 +22,3 @@ export const projectColorOnNormal = (normal, color) => {
     }
     return [0,0,0];
 }
-
-const isValidNormal = normal => (
-    math.norm(normal) !== 0
-)

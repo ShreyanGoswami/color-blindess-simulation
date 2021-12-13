@@ -55,7 +55,7 @@ const Normal = ({ title, data, mathConfig, callback }) => {
                     <MathJax inline dynamic>
                     <span>{`$$ (${state[0]}) \\hat{i} + (${state[1]}) \\hat{j} + (${state[2]}) \\hat{k} $$`}</span>
                     </MathJax>
-                    <p><b>Note: The normal calculated in this step is in the RGB color space. You might think that we can transform the normal into LMS color space and then perform the simulation. However, that would not be correct. Can you think why?</b></p>
+                    <p><b>Note: The normal calculated in this step is in the RGB color space. You might think that we can transform the normal into LMS color space and then perform the simulation. However, that would not be correct. The correct step would be to convert this color into LMS space and then compute the normal. Can you think why?</b></p>
                 </MathJaxContext>
                 </div>
             </Content>

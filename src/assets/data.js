@@ -30,6 +30,7 @@ const data = [
         "text": ["Basically color spaces work like vector spaces. We know that any color inside the color space is a color that is physically realizable.",
             "We know that a dichromat would be having a weak or missing cone. Effectively their color space is two dimensional. To simulate color blindess we have to create a 2-D plane.",
             "If we step back from color spaces, we know that we can calculate the equation of a plane if we know the normal to the plane i.e a vector which is perpendiculat to all the vectors on the plane. We can derive the normal if we know three vectors on the plane. Let A,B and C be three vectors. Then the equation of the normal is (A-B) x (C-B) where x is the cross product.",
+            "Another thing to keep in mind is that since color blindess happens in LMS space, to simulate color blindess we need to transform the RGB colors into LMS space, perform the projection of the color onto the plane and then transform the colors back into RGB space.",
             "Therefore, to find the color space of a color blind person we need to find three points that we know would be in thier color space. And fortunately we can do that. "]
     },
     {
