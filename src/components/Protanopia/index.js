@@ -36,7 +36,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, n
         const normal1 = calculatePlane(neutralWhite, invariant1);
         const normal2 = calculatePlane(neutralWhite, invariant2);
 
-        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, neutralWhite); // TODO check this
+        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, neutralWhite);
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
