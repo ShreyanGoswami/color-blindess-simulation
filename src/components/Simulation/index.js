@@ -35,15 +35,12 @@ const Simulation = ({ title, data, invariant }) => {
         const h = img.current.height;
         const w = img.current.width;
         let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
-        console.log(invariant);
         const normal = (calculateNormal(convertSingleRGBToLMS(invariant)));
-        console.log('Normal ' + normal);
         updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO check this
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
         updatedImage = convertToRGB(updatedImage, h, w);
-        console.log('Finished simulation');
 
         ctx = canvasAfter.current.getContext('2d');
         ctx.canvas.height = img.current.height;
