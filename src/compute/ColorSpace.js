@@ -1,4 +1,4 @@
-import { projectColorOnNormal } from './Normal';
+import { projectColorOnNormal, projectColorOnNormalForProtanopia } from './Normal';
 import { all, create } from "mathjs"
 
 const R_OFFSET = 0;
@@ -27,7 +27,6 @@ export const convertRGBToLMS = (imgData, h, w) => {
             workingCopy[locationInArray + B_OFFSET] = s
         }
     }
-    console.log('After RGB-LMS conversion ', workingCopy.slice(0,4));
     return workingCopy
 }
 
@@ -64,7 +63,6 @@ export const convertLMSToRGB = (imgData, h, w) => {
             workingCopy[locationInArray + B_OFFSET] = multiplyRowCol(LMS2RGB[2], [l, m, s])
         }
     }
-    console.log('After LMS-RGB conversion ', workingCopy.slice(0,4));
     return workingCopy
 
 }
@@ -74,21 +72,21 @@ export const convertToRGB = (imgData, h, w) => {
     for (let i = 0; i < h; i++) {
         for (let j = 0; j < w; j++) {
             const locationInArray = getIndex(j, i, w)
-            workingCopy[locationInArray + R_OFFSET] = addGamma(workingCopy[locationInArray + R_OFFSET]);
-            workingCopy[locationInArray + G_OFFSET] = addGamma(workingCopy[locationInArray + G_OFFSET]);
-            workingCopy[locationInArray + B_OFFSET] = addGamma(workingCopy[locationInArray + B_OFFSET]);
+            workingCopy[locationInArray + R_OFFSET] = clamp(addGamma(workingCopy[locationInArray + R_OFFSET]));
+            workingCopy[locationInArray + G_OFFSET] = clamp(addGamma(workingCopy[locationInArray + G_OFFSET]));
+            workingCopy[locationInArray + B_OFFSET] = clamp(addGamma(workingCopy[locationInArray + B_OFFSET]));
         }
     }
-    console.log('After conversion to non linear RGB ', workingCopy.slice(0,4));
     return workingCopy;
 }
 
+const clamp = (v) => {
+    if (v > 255) return 255;
+    return v;
+}
+
 const multiplyRowCol = (row, col) => {
-    let sum = 0;
-    for (let i = 0; i < row.length; i++) {
-        sum += row[i] * col[i]
-    }
-    return sum;
+    return math.dot(row, col);
 }
 
 export const removeGamma = (c) => {
@@ -123,7 +121,24 @@ export const simulateColorBlindness = (imgData, h, w, normal) => {
 
         }
     }
-    console.log('After projection ', workingCopy.slice(0,4));
+    return workingCopy
+}
+
+export const simulateProtanopia = (imgData, h, w, plane1, plane2, neutralWhite) => {
+    const workingCopy = Array.from(imgData)
+    for (let i = 0; i < h; i++) {
+        for (let j = 0; j < w; j++) {
+            const locationInArray = getIndex(j, i, w)
+            const l = workingCopy[locationInArray + R_OFFSET];
+            const m = workingCopy[locationInArray + G_OFFSET];
+            const s = workingCopy[locationInArray + B_OFFSET];
+            const color = [l,m,s];
+            const res = projectColorOnNormalForProtanopia(plane1, plane2, neutralWhite, color);
+            workingCopy[locationInArray + R_OFFSET] = res[0]
+            workingCopy[locationInArray + G_OFFSET] = res[1]
+            workingCopy[locationInArray + B_OFFSET] = res[2]
+        }
+    }
     return workingCopy
 }
 

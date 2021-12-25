@@ -6,7 +6,7 @@ import Info from "./Info";
 import Normal from "./Normal";
 import LMS from "./LMS";
 import Projection from "./Projection";
-import Protonopia from "./Protonopia";
+import Protanopia from "./Protanopia";
 
 import data from "../assets/data";
 import ColorSpace from "./ColorSpace";
@@ -56,7 +56,7 @@ const Home = () => {
         <LMS title={data[getId(7, data)][title]} data={data[getId(7, data)][text]} pixel={pixel} mathConfig={mathJaxConfig}></LMS>
         <Projection title={data[getId(9, data)][title]} data={data[getId(9, data)][text]} pixel={pixel} invariant={invariant} mathConfig={mathJaxConfig}/>
         <Simulation title={data[getId(10, data)][title]} data={data[getId(10, data)][text]} invariant={invariant}></Simulation>
-        <Protonopia title={data[getId(11, data)][title]} data={data[getId(11, data)][text]} invariant={[0,0,1]} imageForSimulation={test}></Protonopia>
+        <Protanopia title={data[getId(11, data)][title]} data={data[getId(11, data)][text]} invariant1={[0.05235866, 0.14667038, 0.95667258]} invariant2={[0.9847601, 0.87614013, 0.00165276]} neutralWhite={[1.027,0.9847,0.9182]} imageForSimulation={test}></Protanopia>
     </Wrapper>);
 }
 

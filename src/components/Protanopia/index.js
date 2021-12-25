@@ -3,10 +3,10 @@ import { Button } from "react-bootstrap";
 
 import { Wrapper, Content } from "./Protonopia.styles";
 
-import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS } from "../../compute/ColorSpace";
-import { calculateNormal } from "../../compute/Normal";
+import { convertLMSToRGB, convertRGBToLMS, convertToRGB, simulateProtanopia} from "../../compute/ColorSpace";
+import { calculatePlane } from "../../compute/Normal";
 
-const Protonopia = ({ title, data, imageForSimulation, invariant }) => {
+const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, neutralWhite }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
@@ -32,16 +32,15 @@ const Protonopia = ({ title, data, imageForSimulation, invariant }) => {
         const h = img.current.height;
         const w = img.current.width;
         let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
-        console.log(invariant);
-        const normal = (calculateNormal(convertSingleRGBToLMS(invariant)));
-        console.log('Normal ' + normal);
-        updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO check this
+        
+        const normal1 = calculatePlane(neutralWhite, invariant1);
+        const normal2 = calculatePlane(neutralWhite, invariant2);
+
+        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, neutralWhite);
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
         updatedImage = convertToRGB(updatedImage, h, w);
-        console.log('Finished simulation');
-
         ctx = canvasAfter.current.getContext('2d');
         ctx.canvas.height = img.current.height;
         ctx.canvas.width = img.current.width;
@@ -76,4 +75,4 @@ const Protonopia = ({ title, data, imageForSimulation, invariant }) => {
 
 }
 
-export default Protonopia;
+export default Protanopia;
