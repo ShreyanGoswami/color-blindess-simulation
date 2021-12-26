@@ -54,6 +54,7 @@ const Home = () => {
         <LMS title={data[getId(7, data)][title]} data={data[getId(7, data)][text]} pixel={pixel} mathConfig={mathJaxConfig}></LMS>
         <Simulation title={data[getId(10, data)][title]} data={data[getId(10, data)][text]} lms1={LMS1} lms2={LMS2} white={neutralWhite}></Simulation>
         <Protanopia title={data[getId(11, data)][title]} data={data[getId(11, data)][text]} invariant1={LMS1} invariant2={LMS2} white={neutralWhite} imageForSimulation={test} config={mathJaxConfig}></Protanopia>
+        <Info title={data[getId(12, data)][title]} data={data[getId(12, data)][text]}></Info>
     </Wrapper>);
 }
 

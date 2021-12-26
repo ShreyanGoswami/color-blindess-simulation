@@ -22,7 +22,7 @@ const data = [
         "id": 4,
         "title": "A general strategy",
         "text": ["The technique to perform color blindless simulation has been taken from the paper, Computerized simulation of color appearance for dichromats by Brettel et al.",
-            "To perform the simulation, the paper described deriving two two-dimensional planes. The idea relies on previous studies done on an unilateral color deficient observer. An unilateral color deficient person is color blind in one eye while being trichromat in the other. With their help the study showed that at wavelengths 475nm and 575nm a trichromat and dichromat perceive the color in the same way. Also neutral white is perceived in the same way by a dichromat and trichromat.<Add references>",
+            "To perform the simulation, the paper described deriving two two-dimensional planes. The idea relies on previous studies done on an unilateral color deficient observer. An unilateral color deficient person is color blind in one eye while being trichromat in the other. With their help the study showed that at wavelengths 475nm and 575nm a trichromat and dichromat perceive the color in the same way. Neutral white is perceived in the same way by a dichromat and trichromat. The relevant papers are in references 2,3 and 4",
             "To define a plane, we need three points. The first one is the origin(O) which is black. The second point is E(neutral white). The third point is 475nm on one plane and 575nm on the other plane."]
     },
     {
@@ -51,7 +51,7 @@ const data = [
         "id": 10,
         "title": "Step 3: Simulation",
         "text": ["An image is a collection of (non-linear) RGB values. To simulate how a color blind person would see the image, we have to take the image through multiple color spaces. First is to move from sRGB to linear RGB which involves removing the gamma from the pixel. Next is to move to XYZ color space. Finally, we move to LMS color space under a particular illuminant.",
-        "Next, we find a point on the plane that has the same M and S values as the converted pixel value, however the L value is changed. If Q(L',M,S) describes the point on the plane and N(x,y,z) is the normal for the plane we have"]
+            "Next, we find a point on the plane that has the same M and S values as the converted pixel value, however the L value is changed. If Q(L',M,S) describes the point on the plane and N(x,y,z) is the normal for the plane we have"]
     },
     {
         "id": 11,
@@ -59,6 +59,14 @@ const data = [
         "text": ["Now that we understand the individual steps, we are now ready to see this technique in action. Protanopia or red-green deficiency is the most common color blindess. People with this condition don't see the color red as how a trichromat would. For them it looks like a yellow color. One of the common problems with such a deficiency is the difficulty to pick ripe fruits in particular apples. Sometimes a Protanope would have trouble distinguishing traffic signals when they are in a different country as the order in which the signals are arranged can be different.",
             "The Ishihara test is a color perception test to detect red-green deficiency. You might have seen the image below on the internet. It was named after its designer, Shinobu Ishihara, a professor at the University of Tokyo, who first published his tests in 1917. The test consists of identifying the number in the image. For someone with protanopia, they would not be able to distinguish the red from the surrounding greens.",
             "In this section, the planes and image are fixed. All you have to do is click the Simulate button. Notice how the colors look yellowish in the image and there is no way to make out the original number."]
+    },
+    {
+        "id": 12,
+        "title": "References",
+        "text": ["1) Computerized simulation of color appearance for dichromats",
+            "2) D.B. Judd, \"Color perceptions of deuteranopic and protanopic observers\"",
+            "3) K.H. Ruddock, \"Psychophysics of inherited color vision deficiencies\"",
+            "4) M. Alpern, K. Kitahara and D.H. Krantz, \"Perception of colour in unilateral tritanopia\""]
     }
 ];
 
