@@ -1,12 +1,10 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Wrapper, Content } from "./Normal.styles";
 import { calculateNormal, calculatePlane } from "./../../compute/Normal"
 import Equation from "../Equation";
 
 const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
-
-    const [state, setState] = useState([0, 0, 0]);
 
     const textToBeDisplayed = [];
 
