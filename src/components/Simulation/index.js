@@ -4,11 +4,11 @@ import Spinner from "./../Spinner";
 
 import { Wrapper, Content } from "./Simulation.styles";
 
-import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS } from "../../compute/ColorSpace";
-import { calculateNormal } from "../../compute/Normal";
+import { convertLMSToRGB, convertRGBToLMS, convertToRGB, simulateProtanopia } from "../../compute/ColorSpace";
+import { calculatePlane } from "../../compute/Normal";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 
-const Simulation = ({ title, data, invariant, mathConfig }) => {
+const Simulation = ({ title, data, invariant1, invariant2, white, mathConfig }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
@@ -36,8 +36,11 @@ const Simulation = ({ title, data, invariant, mathConfig }) => {
         const h = img.current.height;
         const w = img.current.width;
         let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
-        const normal = (calculateNormal(convertSingleRGBToLMS(invariant)));
-        updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO update this logic
+        
+        const normal1 = calculatePlane(white, invariant1);
+        const normal2 = calculatePlane(white, invariant2);
+
+        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, white);
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
