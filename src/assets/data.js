@@ -19,32 +19,23 @@ const data = [
             "Most common are the dichromats, who have a weak/missing cone. Out of that red-green is the most common. As we will see later, by choosing the correct invariant color we can simulate any type of dichromatic vision"]
     },
     {
-        "id": 6,
-        "title": "Step 2: Moving to linear RGB",
-        "text": ["Color spaces are mathematical objects. They allow us to treat colors as numbers. So we can do things like add two colors together. Color spaces can be transformed from one to the other if both color spaces are linear. The color space, which is used to show items on our displays are not linear. So we need to convert the color space into linear RGB. Then we can convert it into LMS.",
-            "To convert from the RGB value we see on screen to linear RGB we use the following formula"]
-    },
-    {
         "id": 4,
         "title": "A general strategy",
-        "text": ["Basically color spaces work like vector spaces. We know that any color inside the color space is a color that is physically realizable.",
-            "We know that a dichromat would be having a weak or missing cone. Effectively their color space is two dimensional. To simulate color blindess we have to create a 2-D plane.",
-            "If we step back from color spaces, we know that we can calculate the equation of a plane if we know the normal to the plane i.e a vector which is perpendiculat to all the vectors on the plane. We can derive the normal if we know three vectors on the plane. Let A,B and C be three vectors. Then the equation of the normal is (A-B) x (C-B) where x is the cross product.",
-            "Another thing to keep in mind is that since color blindess happens in LMS space, to simulate color blindess we need to transform the RGB colors into LMS space, perform the projection of the color onto the plane and then transform the colors back into RGB space.",
-            "In the upcoming sections we will look at each of the steps in more detail."]
+        "text": ["The technique to perform color blindless simulation has been taken from the paper, Computerized simulation of color appearance for dichromats by Brettel et al.",
+            "To perform the simulation, the paper described deriving two two-dimensional planes. The idea relies on previous studies done on an unilateral color deficient observer. An unilateral color deficient person is color blind in one eye while being trichromat in the other. With their help the study showed that at wavelengths 475nm and 575nm a trichromat and dichromat perceive the color in the same way. Neutral white is perceived in the same way by a dichromat and trichromat. The relevant papers are in references 2,3 and 4",
+            "To define a plane, we need three points. The first one is the origin(O) which is black. The second point is E(neutral white). The third point is 475nm on one plane and 575nm on the other plane."]
     },
     {
         "id": 5,
-        "title": "Step 1: Finding the plane",
-        "text": ["To find the color space of a color blind person we need to find three points that we know would be in their color space. And fortunately we can do that.",
-            "Studies have shown that a color blind person sees white and black colors as a trichromat would. So we are going to fix (0,0,0) and (1,1,1) as two points. What about the third point? The third point would be a color that a color blind person sees just as a trichromat would.",
-            "Here, our knowledge of the different type of color blindness comes in. If a person is red-green deficiet i.e a protanope, we know that they won't have any issues seeing blue color. Hence, to simulate Protanopia, we can fix the third point as a blue color. A pure blue would be (0,0,255) or (0,0,1) in RGB",
-            "To calculate the normal to the plane, we need an invariant color that will form the third point on the plane. To derive such a normal in the RGB space enter values between (0,0,0) and (1,1,1)"]
+        "title": "Step 1: Finding the planes",
+        "text": ["As mentioned above we need three points. For neutral white we have picked Equal Energy White, an illuminant that has SPD of one at every wavelength. From previous studies, it is safe though not a strict requirement, we have assumed 475nm and 575nm to be invariant colors."]
     },
     {
         "id": 7,
-        "title": "Step 3: Converting the pixel to LMS",
-        "text": ["We can apply the conversion on the pixel that we obtained to get"]
+        "title": "Step 2: Converting pixels from sRGB to LMS",
+        "text": ["There is a bit of nuance in this step. We can use the Hunt-Pointer-Estevez transformation matrix to convert from XYZ to LMS color space. Apart from the ability to perceive color the human eye is capable of adapting to the scene. White is always perceived as white regardless of the lighting conditions in the scene. We are going to assume that a color blind person does not lose this ability of adaptation",
+            "The matrix below converts values from XYZ to LMS adapted to natural illuminant D65. So moving from RGB to LMS is a two step process, move RGB to XYZ and move from XYZ to LMS using the HPE matrix adapted to a particular illuminant.",
+            "Finally, the LMS values that are used for the simulation are converted from XYZ to LMS using the HPE matrix instead of taking the Stockman and Sharpe LMS cone responses directly."]
     },
     {
         "id": 8,
@@ -58,15 +49,24 @@ const data = [
     },
     {
         "id": 10,
-        "title": "Step 6: Simulation",
-        "text": ["An image is just a collection of (non-linear) RGB values. To simulate how a color blind person would see the image, we have to do is convert the RGB into LMS space, perform the projection and convert the projected points back into (non-linear) RGB. Bwlo you have the option to upload your own image and see how it looks based on the plane that is computed. Click on the simulate button to see how the image would look like. On click, the values entered above in the step 1 would be used to find a plane in the LMS space."]
+        "title": "Step 3: Simulation",
+        "text": ["An image is a collection of (non-linear) RGB values. To simulate how a color blind person would see the image, we have to take the image through multiple color spaces. First is to move from sRGB to linear RGB which involves removing the gamma from the pixel. Next is to move to XYZ color space. Finally, we move to LMS color space under a particular illuminant.",
+            "Next, we find a point on the plane that has the same M and S values as the converted pixel value, however the L value is changed. If Q(L',M,S) describes the point on the plane and N(x,y,z) is the normal for the plane we have"]
     },
     {
         "id": 11,
         "title": "Taking an eye test",
-        "text": ["Now that we understand the individual steps, we are now ready to see this technique in action. Protanopia or red-green deficiency is the most common color blindess. People with this condition don't see the color red as how a trichromat would. For them it looks like a yellow color. One of the common problems with such a deficiency is the difficulty to pick ripe fruits in particular apples.",
+        "text": ["Now that we understand the individual steps, we are now ready to see this technique in action. Protanopia or red-green deficiency is the most common color blindess. People with this condition don't see the color red as how a trichromat would. For them it looks like a yellow color. One of the common problems with such a deficiency is the difficulty to pick ripe fruits in particular apples. Sometimes a Protanope would have trouble distinguishing traffic signals when they are in a different country as the order in which the signals are arranged can be different.",
             "The Ishihara test is a color perception test to detect red-green deficiency. You might have seen the image below on the internet. It was named after its designer, Shinobu Ishihara, a professor at the University of Tokyo, who first published his tests in 1917. The test consists of identifying the number in the image. For someone with protanopia, they would not be able to distinguish the red from the surrounding greens.",
-            "In this section, the plane and image are fixed. All you have to do is click the Simulate button. If the simulation is proper a trichromat would fail the test as well."]
+            "In this section, the planes and image are fixed. All you have to do is click the Simulate button. Notice how the colors look yellowish in the image and there is no way to make out the original number."]
+    },
+    {
+        "id": 12,
+        "title": "References",
+        "text": ["1) Computerized simulation of color appearance for dichromats",
+            "2) D.B. Judd, \"Color perceptions of deuteranopic and protanopic observers\"",
+            "3) K.H. Ruddock, \"Psychophysics of inherited color vision deficiencies\"",
+            "4) M. Alpern, K. Kitahara and D.H. Krantz, \"Perception of colour in unilateral tritanopia\""]
     }
 ];
 

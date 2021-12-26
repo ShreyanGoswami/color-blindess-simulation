@@ -6,8 +6,9 @@ import { Wrapper, Content } from "./Simulation.styles";
 
 import { convertLMSToRGB, convertRGBToLMS, simulateColorBlindness, convertToRGB, convertSingleRGBToLMS } from "../../compute/ColorSpace";
 import { calculateNormal } from "../../compute/Normal";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
 
-const Simulation = ({ title, data, invariant }) => {
+const Simulation = ({ title, data, invariant, mathConfig }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
@@ -36,7 +37,7 @@ const Simulation = ({ title, data, invariant }) => {
         const w = img.current.width;
         let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
         const normal = (calculateNormal(convertSingleRGBToLMS(invariant)));
-        updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO check this
+        updatedImage = simulateColorBlindness(updatedImage, h, w, normal); // TODO update this logic
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
@@ -61,7 +62,16 @@ const Simulation = ({ title, data, invariant }) => {
             <Content className="row">
                 <h3>{title}</h3>
                 {textToBeDisplayed}
-                <p>Ensure you have calculated the <a href="#link-1">normal</a> above</p>
+                <MathJaxContext config={mathConfig}>
+                    <MathJax>
+                        <span>{`$$\\overrightarrow{Q}\\times\\overrightarrow{N}=0$$`}</span>
+                        <span>{`$$\\Rightarrow L'= - \\frac{My + Sz}{x}$$`}</span>
+                <p>Since we have two planes we follow the brlow method for choosing one plane over another. Let Q<span>{`$(L_Q,M_Q,S_Q)$`}</span> be the input color, W($L_W,M_W,S_W$) be the neutral white then </p>
+                If <span>{`$\\frac{S_Q}{M_Q} \\lt \\frac{S_W}{M_W}$`}</span> then the plane described by white and 575nm else pick the plane described by white and 475nm.
+                </MathJax>
+                </MathJaxContext>
+
+                <div>You can upload an image below to visualise how it would look like to a protanope.</div>
                 <div className="center-items">
                     <canvas ref={canvas} className="canvas"></canvas>
                     <canvas ref={canvasAfter} className="canvas"></canvas>

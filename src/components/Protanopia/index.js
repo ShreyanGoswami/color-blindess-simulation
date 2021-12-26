@@ -6,7 +6,7 @@ import { Wrapper, Content } from "./Protonopia.styles";
 import { convertLMSToRGB, convertRGBToLMS, convertToRGB, simulateProtanopia} from "../../compute/ColorSpace";
 import { calculatePlane } from "../../compute/Normal";
 
-const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, neutralWhite }) => {
+const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, white }) => {
 
     const textToBeDisplayed = [];
     const canvas = createRef(null);
@@ -33,10 +33,10 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, n
         const w = img.current.width;
         let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
         
-        const normal1 = calculatePlane(neutralWhite, invariant1);
-        const normal2 = calculatePlane(neutralWhite, invariant2);
+        const normal1 = calculatePlane(white, invariant1);
+        const normal2 = calculatePlane(white, invariant2);
 
-        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, neutralWhite);
+        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, white);
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
