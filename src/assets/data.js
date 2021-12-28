@@ -16,7 +16,7 @@ const data = [
         "id": 3,
         "title": "Types of color blindness",
         "text": ["The types of color blindness can be specified by first knowing how many different types of cones are not working for an individual. A person who has all three types of cones working normally is referred to as a trichromat. A person who has two types of cones working is referred to as a dichromat. Finally, the most rare of them all is a monochromat who has one type of cone working. A dichromat is further classified into Protanopia, who has a defective L cone, Deuteranopia,  who has a defective M cone, Tritanopia, who has a defective S cone.",
-            "Most common are the dichromats, who have a weak/missing cone. Out of that red-green is the most common. As we will see later, by choosing the correct invariant color we can simulate any type of dichromatic vision"]
+            "Most common are the dichromats, who have a weak/missing cone. Out of that red-green is the most common. As we will see later, by choosing the correct invariant color we can simulate any type of dichromatic vision."]
     },
     {
         "id": 4,

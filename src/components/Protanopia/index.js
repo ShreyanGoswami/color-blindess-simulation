@@ -1,13 +1,6 @@
 import React, { createRef, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import * as Plotly from 'plotly.js';
-import {default as r}  from '../../assets/r_v';
-import {default as g} from '../../assets/g_v';
-import {default as b} from '../../assets/b_v';
-import {default as rConverted}  from '../../assets/rc_v';
-import {default as gConverted} from '../../assets/gc_v';
-import {default as bConverted} from '../../assets/bc_v';
-
 
 import { Wrapper, Content } from "./Protonopia.styles";
 
@@ -32,6 +25,44 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         ctx.canvas.height = img.current.height;
         ctx.canvas.width = img.current.width;
         ctx.drawImage(img.current, 0, 0);
+
+        // Plot here
+        const h = img.current.height;
+        const w = img.current.width;
+        const imgData = ctx.getImageData(0, 0, w, h).data;
+
+        const res = convertRGBToLMS(imgData);
+        const L = res[1];
+        const M = res[2];
+        const S = res[3];
+        const traceOriginal = {
+            x: L,
+            y: M,
+            z: S,
+            type:"scatter3d",
+            mode:"markers",
+            marker: {
+                size: 5,
+                color: 'rgb(188,195,113)',
+                symbol: 'circle',
+                lines: {
+                    color: 'rgb(127,127,127)',
+                    wdith: 1,
+                    opacity: 0.8
+                }
+            },
+            name: 'Original'
+        };
+
+        const data =[traceOriginal];
+        const layout = {
+            font: {size:15}, 
+            scene: {
+                xaxis:{title: 'L cone'},
+		        yaxis:{title: 'M cone'},
+		        zaxis:{title: 'S cone'},
+            }};
+        Plotly.newPlot("visualize", data, layout);
     }
 
     const simulate = () => {
@@ -39,12 +70,15 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         let ctx = canvas.current.getContext('2d');
         const h = img.current.height;
         const w = img.current.width;
-        let updatedImage = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data.slice(), h, w)
-        
+
         const normal1 = calculatePlane(white, invariant1);
         const normal2 = calculatePlane(white, invariant2);
-
-        updatedImage = simulateProtanopia(updatedImage, h, w, normal1, normal2, white);
+        let [updatedImage, L, M, S] = convertRGBToLMS(ctx.getImageData(0, 0, w, h).data)
+        const res = simulateProtanopia(updatedImage, h, w, normal1, normal2, white);
+        updatedImage = res[0];
+        const lConverted = res[1];
+        const mConverted = res[2];
+        const sConverted = res[3];
 
         updatedImage = convertLMSToRGB(updatedImage, h, w);
 
@@ -57,9 +91,9 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         ctx.putImageData(simulatedImage, 0, 0);
         
         const traceConverted = {
-            x: rConverted,
-            y: gConverted,
-            z: bConverted,
+            x: lConverted,
+            y: mConverted,
+            z: sConverted,
             type:"scatter3d",
             mode:"markers",
             marker: {
@@ -76,9 +110,9 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         }
 
         const traceOriginal = {
-            x: r,
-            y: g,
-            z: b,
+            x: L,
+            y: M,
+            z: S,
             type:"scatter3d",
             mode:"markers",
             marker: {
@@ -103,7 +137,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
 		        yaxis:{title: 'M cone'},
 		        zaxis:{title: 'S cone'},
             }};
-        Plotly.newPlot("PlotlyTest", data, layout, layout,config);
+        Plotly.newPlot("visualize", data, layout, layout,config);
         
         setLoading(() => false);
     }
@@ -111,37 +145,6 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
     for (let i = 0; i < data.length; i++) {
         textToBeDisplayed.push(<p key={i}>{data[i]}</p>);
     }
-
-    useEffect(() => {
-        const traceOriginal = {
-            x: r,
-            y: g,
-            z: b,
-            type:"scatter3d",
-            mode:"markers",
-            marker: {
-                size: 5,
-                color: 'rgb(188,195,113)',
-                symbol: 'circle',
-                lines: {
-                    color: 'rgb(127,127,127)',
-                    wdith: 1,
-                    opacity: 0.8
-                }
-            },
-            name: 'Original'
-        };
-
-        const data =[traceOriginal];
-        const layout = {
-            font: {size:15}, 
-            scene: {
-                xaxis:{title: 'L cone'},
-		        yaxis:{title: 'M cone'},
-		        zaxis:{title: 'S cone'},
-            }};
-        Plotly.newPlot("PlotlyTest", data, layout);
-    },[])
     
     return (
         <Wrapper className="d-grid gap-3 pt-3 mb-4 px-4 bg-light border rounded-3">
@@ -156,9 +159,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
                 <div className="gap-below mx-auto center-items">
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
-                {/* <Plot data={lData} layout={layout} revision={revision}></Plot> */}
-                <div id="PlotlyTest" className="col-lg-11 col-md-11 col-10 col-centered"></div>
-                <p>In the same vein, you can supply an invariant color in Step 1 and try to simulate the other deficiencies. Remember to perform the simulation correctly identify a color that is the same for a trichromat and a dichroma.</p>
+                <div id="visualize" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
             </Content>
         </Wrapper>
     )
