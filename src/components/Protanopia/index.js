@@ -96,7 +96,13 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
 
         const data =[traceOriginal, traceConverted];
         const config = {responsive: true};
-        const layout = {font: {size:15}};
+        const layout = {
+            font: {size:15}, 
+            scene: {
+                xaxis:{title: 'L cone'},
+		        yaxis:{title: 'M cone'},
+		        zaxis:{title: 'S cone'},
+            }};
         Plotly.newPlot("PlotlyTest", data, layout, layout,config);
         
         setLoading(() => false);
@@ -127,7 +133,14 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         };
 
         const data =[traceOriginal];
-        Plotly.newPlot("PlotlyTest", data);
+        const layout = {
+            font: {size:15}, 
+            scene: {
+                xaxis:{title: 'L cone'},
+		        yaxis:{title: 'M cone'},
+		        zaxis:{title: 'S cone'},
+            }};
+        Plotly.newPlot("PlotlyTest", data, layout);
     },[])
     
     return (
