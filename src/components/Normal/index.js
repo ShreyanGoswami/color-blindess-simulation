@@ -8,7 +8,7 @@ const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
 
     const textToBeDisplayed = [];
 
-    for (let i=0;i<data.length;i++) {
+    for (let i = 0; i < data.length; i++) {
         textToBeDisplayed.push(<p key={i}>{data[i]}</p>);
     }
 
@@ -21,9 +21,9 @@ const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
                 <h3 id="link-1">{title}</h3>
                 {textToBeDisplayed}
                 <div>
-                <p className="additional-info">Computed Normals</p>
-                <Equation values={normal1} mathConfig={mathConfig}/>
-                <Equation values={normal2} mathConfig={mathConfig}/>
+                    <p className="additional-info">Computed Normals</p>
+                    <Equation values={normal1} mathConfig={mathConfig} />
+                    <Equation values={normal2} mathConfig={mathConfig} />
                 </div>
             </Content>
         </Wrapper>
