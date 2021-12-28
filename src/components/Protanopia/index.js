@@ -1,5 +1,13 @@
 import React, { createRef, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import * as Plotly from 'plotly.js';
+import {default as r}  from '../../assets/r_v';
+import {default as g} from '../../assets/g_v';
+import {default as b} from '../../assets/b_v';
+import {default as rConverted}  from '../../assets/rc_v';
+import {default as gConverted} from '../../assets/gc_v';
+import {default as bConverted} from '../../assets/bc_v';
+
 
 import { Wrapper, Content } from "./Protonopia.styles";
 
@@ -11,9 +19,9 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
     const textToBeDisplayed = [];
     const canvas = createRef(null);
     const canvasAfter = createRef(null);
-    const [loading, setLoading] = useState(false);
-
     const img = createRef(new Image());
+
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         img.current.src = imageForSimulation;
@@ -47,7 +55,50 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         const simulatedImage = new ImageData(Uint8ClampedArray.from(updatedImage), w, h);
 
         ctx.putImageData(simulatedImage, 0, 0);
+        
+        const traceConverted = {
+            x: rConverted,
+            y: gConverted,
+            z: bConverted,
+            type:"scatter3d",
+            mode:"markers",
+            marker: {
+                size: 5,
+                color: 'rgb(87,128,161)',
+                symbol: 'circle',
+                lines: {
+                    color: 'rgb(127,127,127)',
+                    wdith: 1,
+                    opacity: 0.8
+                }
+            },
+            name: 'Simulated'
+        }
 
+        const traceOriginal = {
+            x: r,
+            y: g,
+            z: b,
+            type:"scatter3d",
+            mode:"markers",
+            marker: {
+                size: 5,
+                color: 'rgb(188,195,113)',
+                symbol: 'circle',
+                lines: {
+                    color: 'rgb(127,127,127)',
+                    wdith: 1,
+                    opacity: 0.8
+                }
+            },
+            name: 'Original'
+        };
+
+        const data =[traceOriginal, traceConverted];
+        const config = {responsive: true};
+        const layout = {font: {size:15}};
+        Plotly.newPlot("PlotlyTest", data, layout, layout,config);
+        
         setLoading(() => false);
     }
 
@@ -55,6 +106,30 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         textToBeDisplayed.push(<p key={i}>{data[i]}</p>);
     }
 
+    useEffect(() => {
+        const traceOriginal = {
+            x: r,
+            y: g,
+            z: b,
+            type:"scatter3d",
+            mode:"markers",
+            marker: {
+                size: 5,
+                color: 'rgb(188,195,113)',
+                symbol: 'circle',
+                lines: {
+                    color: 'rgb(127,127,127)',
+                    wdith: 1,
+                    opacity: 0.8
+                }
+            },
+            name: 'Original'
+        };
+
+        const data =[traceOriginal];
+        Plotly.newPlot("PlotlyTest", data);
+    },[])
+    
     return (
         <Wrapper className="d-grid gap-3 pt-3 mb-4 px-4 bg-light border rounded-3">
             <Content className="row">
@@ -68,6 +143,8 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
                 <div className="gap-below mx-auto center-items">
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
+                {/* <Plot data={lData} layout={layout} revision={revision}></Plot> */}
+                <div id="PlotlyTest" className="col-lg-11 col-md-11 col-10 col-centered"></div>
                 <p>In the same vein, you can supply an invariant color in Step 1 and try to simulate the other deficiencies. Remember to perform the simulation correctly identify a color that is the same for a trichromat and a dichroma.</p>
             </Content>
         </Wrapper>
