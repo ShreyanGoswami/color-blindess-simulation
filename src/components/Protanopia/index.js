@@ -6,6 +6,7 @@ import { Wrapper, Content } from "./Protonopia.styles";
 
 import { convertLMSToRGB, convertRGBToLMS, convertToRGB, simulateProtanopia} from "../../compute/ColorSpace";
 import { calculatePlane } from "../../compute/Normal";
+import { configFor3DScatterPlot } from "../../utils/graphPlotHelper";
 
 const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, white }) => {
 
@@ -35,34 +36,36 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         const L = res[1];
         const M = res[2];
         const S = res[3];
-        const traceOriginal = {
-            x: L,
-            y: M,
-            z: S,
-            type:"scatter3d",
-            mode:"markers",
-            marker: {
-                size: 5,
-                color: 'rgb(188,195,113)',
-                symbol: 'circle',
-                lines: {
-                    color: 'rgb(127,127,127)',
-                    wdith: 1,
-                    opacity: 0.8
-                }
-            },
-            name: 'Original'
-        };
+        // const traceOriginal = {
+        //     x: L,
+        //     y: M,
+        //     z: S,
+        //     type:"scatter3d",
+        //     mode:"markers",
+        //     marker: {
+        //         size: 5,
+        //         color: 'rgb(188,195,113)',
+        //         symbol: 'circle',
+        //         lines: {
+        //             color: 'rgb(127,127,127)',
+        //             wdith: 1,
+        //             opacity: 0.8
+        //         }
+        //     },
+        //     name: 'Original'
+        // };
 
-        const data =[traceOriginal];
-        const layout = {
-            font: {size:15}, 
-            scene: {
-                xaxis:{title: 'L cone'},
-		        yaxis:{title: 'M cone'},
-		        zaxis:{title: 'S cone'},
-            }};
-        Plotly.newPlot("visualize", data, layout);
+        // const data =[traceOriginal];
+        // const layout = {
+        //     font: {size:15}, 
+        //     scene: {
+        //         xaxis:{title: 'L cone'},
+		//         yaxis:{title: 'M cone'},
+		//         zaxis:{title: 'S cone'},
+        //     }};
+        
+        const [data, layout, config] = configFor3DScatterPlot([L],[M],[S], ["Original"])
+        Plotly.newPlot("visualize-ishihara", data, layout, config);
     }
 
     const simulate = () => {
@@ -137,7 +140,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
 		        yaxis:{title: 'M cone'},
 		        zaxis:{title: 'S cone'},
             }};
-        Plotly.newPlot("visualize", data, layout, layout,config);
+        Plotly.newPlot("visualize-ishihara", data, layout, layout,config);
         
         setLoading(() => false);
     }
@@ -159,7 +162,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
                 <div className="gap-below mx-auto center-items">
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
-                <div id="visualize" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
+                <div id="visualize-ishihara" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
             </Content>
         </Wrapper>
     )
