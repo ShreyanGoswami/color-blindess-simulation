@@ -65,7 +65,7 @@ const Simulation = ({ title, data, invariant1, invariant2, white, mathConfig }) 
 		        yaxis:{title: 'M cone'},
 		        zaxis:{title: 'S cone'},
             }};
-        Plotly.newPlot("visualize", data, layout);
+        Plotly.newPlot("visualize-simulation", data, layout);
     }
 
     const simulate = () => {
@@ -140,7 +140,7 @@ const Simulation = ({ title, data, invariant1, invariant2, white, mathConfig }) 
 		        yaxis:{title: 'M cone'},
 		        zaxis:{title: 'S cone'},
             }};
-        Plotly.newPlot("visualize", data, layout, layout,config);
+        Plotly.newPlot("visualize-simulation", data, layout, config);
         
         setLoading(() => false);
     }
@@ -173,7 +173,7 @@ const Simulation = ({ title, data, invariant1, invariant2, white, mathConfig }) 
                     <input className="col col-md-6 gap-below-responsive" type="file" id="formFile" onChange={handleImage} />
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
-                <div id="visualize" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
+                <div id="visualize-simulation" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
             </Content>
             {loading && <Spinner />}
         </Wrapper>
