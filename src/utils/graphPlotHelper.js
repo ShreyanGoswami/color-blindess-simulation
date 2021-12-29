@@ -22,7 +22,7 @@ export const configFor3DMesh = (xData, yData, zData, iVertex, jVertex, kVertex, 
     return [planeData, layout];
 };
 
-export const configFor3DScatterPlot = (xData, yData, zData, legends, xAxisLabel = "L cone", yAxisLabel = "M cone", zAxisLabel = "S cone") => {
+export const configFor3DScatterPlot = (xData, yData, zData, legends, colors=['rgb(188,195,113)'], xAxisLabel = "L cone", yAxisLabel = "M cone", zAxisLabel = "S cone") => {
     const data = []
     for (let i=0;i<xData.length;i++) {
         const trace = {
@@ -33,7 +33,7 @@ export const configFor3DScatterPlot = (xData, yData, zData, legends, xAxisLabel 
             mode: "markers",
             marker: {
                 size: 5,
-                color: 'rgb(188,195,113)',
+                color: colors[i],
                 symbol: 'circle',
                 lines: {
                     color: 'rgb(127,127,127)',

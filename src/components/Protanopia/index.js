@@ -36,34 +36,6 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
         const L = res[1];
         const M = res[2];
         const S = res[3];
-        // const traceOriginal = {
-        //     x: L,
-        //     y: M,
-        //     z: S,
-        //     type:"scatter3d",
-        //     mode:"markers",
-        //     marker: {
-        //         size: 5,
-        //         color: 'rgb(188,195,113)',
-        //         symbol: 'circle',
-        //         lines: {
-        //             color: 'rgb(127,127,127)',
-        //             wdith: 1,
-        //             opacity: 0.8
-        //         }
-        //     },
-        //     name: 'Original'
-        // };
-
-        // const data =[traceOriginal];
-        // const layout = {
-        //     font: {size:15}, 
-        //     scene: {
-        //         xaxis:{title: 'L cone'},
-		//         yaxis:{title: 'M cone'},
-		//         zaxis:{title: 'S cone'},
-        //     }};
-        
         const [data, layout, config] = configFor3DScatterPlot([L],[M],[S], ["Original"])
         Plotly.newPlot("visualize-ishihara", data, layout, config);
     }
@@ -93,53 +65,7 @@ const Protanopia = ({ title, data, imageForSimulation, invariant1, invariant2, w
 
         ctx.putImageData(simulatedImage, 0, 0);
         
-        const traceConverted = {
-            x: lConverted,
-            y: mConverted,
-            z: sConverted,
-            type:"scatter3d",
-            mode:"markers",
-            marker: {
-                size: 5,
-                color: 'rgb(87,128,161)',
-                symbol: 'circle',
-                lines: {
-                    color: 'rgb(127,127,127)',
-                    wdith: 1,
-                    opacity: 0.8
-                }
-            },
-            name: 'Simulated'
-        }
-
-        const traceOriginal = {
-            x: L,
-            y: M,
-            z: S,
-            type:"scatter3d",
-            mode:"markers",
-            marker: {
-                size: 5,
-                color: 'rgb(188,195,113)',
-                symbol: 'circle',
-                lines: {
-                    color: 'rgb(127,127,127)',
-                    wdith: 1,
-                    opacity: 0.8
-                }
-            },
-            name: 'Original'
-        };
-
-        const data =[traceOriginal, traceConverted];
-        const config = {responsive: true};
-        const layout = {
-            font: {size:15}, 
-            scene: {
-                xaxis:{title: 'L cone'},
-		        yaxis:{title: 'M cone'},
-		        zaxis:{title: 'S cone'},
-            }};
+        const [data, layout, config] = configFor3DScatterPlot([L, lConverted], [M, mConverted], [S, sConverted], ["Original", "Simulated"], ['rgb(188,195,113)','rgb(87,128,161)']);
         Plotly.newPlot("visualize-ishihara", data, layout, layout,config);
         
         setLoading(() => false);
