@@ -104,6 +104,12 @@ const Simulation = ({ title, data, invariant1, invariant2, white, mathConfig }) 
                     <Button className="col col-md-2" onClick={simulate} disabled={loading}>Simulate</Button>
                 </div>
                 <div id="visualize-simulation" className="col-lg-11 col-md-11 col-10 col-centered gap-below center-items"></div>
+                <p>
+                One thing to note about the simulation here is that an sRGB color, after protanopic projection, would be outside the gamut. You can visually convince yourself of this by toggling the “sRGB gamut” switch in the 3D plot above, and see that when projecting the gamut to the plane, some colors will be outside the gamut, meaning that some colors that protanopes can see won’t be precisely represented in the sRGB color space.
+                </p>
+                <p>
+                To deal with that, we simply clamp the values to the [0, 255] range, essentially performing a gamut mapping using the Absolute Colorimetric <a href="https://creativepro.com/out-of-gamut-realizing-good-intentions-with-rendering-intents/">rendering intent</a>. In order to better display a protanopia-simulated image on a sRGB display, some color-blindness simulations choose display primaries and white to be isochromes. For instance, <a href="http://vision.psychol.cam.ac.uk/jdmollon/papers/colourmaps.pdf">Vienot et al. (1999)</a> use the display black (K), blue (B), and white (W) of a display gamut as isochromes to derive the projection plane, which is the diagonal plane formed by KBW, which is also guaranteed to pass through the yellow point of the gamut. While the actual simulated colors are slightly distorted in theory compared to using isochromes that are experimentally derived, the advantage of this approach is that more colors in the gamut, after projection, can still be in the gamut and thus displable (see the paragraph before the Conclusion section).
+                </p>
             </Content>
             {loading && <Spinner />}
         </Wrapper>
