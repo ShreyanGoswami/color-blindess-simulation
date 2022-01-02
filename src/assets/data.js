@@ -64,6 +64,13 @@ const data = [
             "2) D.B. Judd, \"Color perceptions of deuteranopic and protanopic observers\"",
             "3) K.H. Ruddock, \"Psychophysics of inherited color vision deficiencies\"",
             "4) M. Alpern, K. Kitahara and D.H. Krantz, \"Perception of colour in unilateral tritanopia\""]
+    },
+    {
+        "id": 9,
+        "title": "Intuition",
+        "text": [
+            "Normal color perception is 3D in that each color can be represented by a point in a 3D space. The plot below plots the spectral locus in the LMS space. We know that the colors that a color-blind person can see are a subset of the colors that people with normal vision can see. So the question is, where do those colors lie in the LMS space?"
+        ]
     }
 ]
 
