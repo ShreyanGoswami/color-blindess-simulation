@@ -4,8 +4,6 @@ import { Wrapper, Content } from "./Normal.styles";
 import { calculatePlane } from "./../../compute/Normal"
 import Equation from "../Equation";
 
-import PlaneVisualizer from "../PlaneVisualizer";
-
 const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
 
     const textToBeDisplayed = [];
@@ -27,7 +25,6 @@ const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
                     <Equation values={normal1} mathConfig={mathConfig} />
                     <Equation values={normal2} mathConfig={mathConfig} />
                 </div>
-                <PlaneVisualizer></PlaneVisualizer>
             </Content>
         </Wrapper>
     )
