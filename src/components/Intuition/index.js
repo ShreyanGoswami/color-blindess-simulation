@@ -1,5 +1,6 @@
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import React from "react";
+import Locus from "../Locus";
 
 import { Wrapper, Content } from "./Intuition.styles";
 
@@ -28,6 +29,7 @@ const Intuition = ({ title, data, mathConfig }) => {
                 <p>Remarkably, there is an exceedingly rare color-blindness called unilateral dichromacy, where a person’s one eye is dichromatic and the other eye is trichromatic. These people have two kinds of eyes but one brain. Color matching between the two eyes by a unilateral dichromat would allow us to identify isochromes, assuming of course that the dichromatic eye and the trichromatic eye are similar to those of a “normal” dichromatic and trichromatic eye, respectively. Such studies show that monochromatic lights at 475 nm and 575 nm are isochromes for protanopes and deuteranopes, and for tritanopes isochromes are found at 485 nm and 660 nm. It is also found that equal-energy white (EEW) appears to be the same between dichromats and trichromats. We now have our three isochromes for protanopes (475 nm, 575 nm, and EEW) and can construct the projection plane.</p>
                 <p>Below is an interactive tool that visualizes the plane and how the spectral locus is mapped to the plane. You can also enter the LMS values of a color and click simulate to see where the color is located before and after the projection.</p>
                 {/* TODO place tool here */}
+                <Locus></Locus>
                 <p>One particularly interesting thing to note is that confusion lines all converge to the same point in the xy-chromaticity diagram, as experimentally confirmed by many studies. Understandingly, the exact convergence point depends on the particular kind of dichromacy. See a visualization <a href="http://www.daltonize.org/2010/05/there-is-not-just-one-color-blindness.html">here</a>. This is because the confusion lines are parallel to each other in the XYZ/LMS space, and the projection from XYZ to xy is a perspective projection, which converges parallel lines. Some color-blindness simulations, such as the one done by <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7759">Meyer and Greenberg (1988)</a>, perform the simulation leveraging the convergence point. Interestingly, the Meyer and Greenberg paper also leverages the convergence points of different dichromacy to derive the LMS cone sensitivities from the XYZ color matching functions.</p>
                 
                 </MathJax>
