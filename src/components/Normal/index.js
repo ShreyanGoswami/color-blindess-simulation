@@ -18,7 +18,7 @@ const Normal = ({ title, data, mathConfig, lms1, lms2, white }) => {
     return (
         <Wrapper className="d-grid gap-3 pt-3 mb-4 px-4 bg-light border rounded-3">
             <Content className="row">
-                <h3 id="link-1">{title}</h3>
+                <h3>{title}</h3>
                 {textToBeDisplayed}
                 <div>
                     <p className="additional-info">Computed Normals</p>
