@@ -22,7 +22,8 @@ const Locus = () => {
     }
 
     const displayProtanopiaLocus = (e) => {
-        
+        const update = {visible: e.target.checked};
+        Plotly.restyle("plot", update, [3]);
     }
 
     const layout = {
@@ -40,7 +41,6 @@ const Locus = () => {
             b: 0,
             t: 0
         },
-        uirevision: true,
         paper_bgcolor: 'rgba(0, 0, 0, 0)',
         scene: {
             camera: {
@@ -52,7 +52,6 @@ const Locus = () => {
             //aspectmode: 'cube',
             xaxis: {
                 autorange: true,
-                //range: [0, 1],
                 zeroline: true,
                 zerolinecolor: '#000000',
                 zerolinewidth: 5,
@@ -105,7 +104,10 @@ const Locus = () => {
     const protanopiaLocus = {
         x: pxData,
         y: pyData,
-        z: pzData
+        z: pzData,
+        visible: false,
+        type: "scatter3d",
+        mode: "lines+markers",
     }
 
     const plane1 = {
