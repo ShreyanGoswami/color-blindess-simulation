@@ -166,7 +166,7 @@ const Locus = ({ invariant1, invariant2, white }) => {
             size: 6,
             opacity: 1
         },
-        visible: true
+        name: "LMS locus"
     }
 
     const protanopiaLocus = {
@@ -183,7 +183,8 @@ const Locus = ({ invariant1, invariant2, white }) => {
         marker: {
             size: 6,
             opacity: 1
-        }
+        },
+        name: "Protanopia locus"
     }
 
     const sRGB = {
