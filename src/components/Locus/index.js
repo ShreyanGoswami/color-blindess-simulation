@@ -1,4 +1,5 @@
-import React, {useEffect} from "react";
+import React, { useEffect, createRef } from "react";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 
 import { Wrapper, Content } from "./Locus.styles";
 
@@ -13,27 +14,64 @@ import zData from '../../assets/sData';
 import { calculatePlane, projectColorOnNormalForProtanopia } from "../../compute/Normal";
 
 
-const Locus = ({invariant1, invariant2, white}) => {
+const Locus = ({ invariant1, invariant2, white }) => {
 
     const pxData = [];
     const pyData = [];
     const pzData = [];
 
-    const handleProjectionPlaneEnabled = (e) => {
-        const update = {visible: e.target.checked};
-        Plotly.restyle("plot", update, [1,2]);
+    const rData = [];
+    const gData = [];
+    const bData = [];
+
+    const l = createRef(null);
+    const m = createRef(null);
+    const s = createRef(null);
+
+    const pX = []
+    const pY = []
+    const pZ = []
+
+    const displayProjectionPlane = (e) => {
+        const update = { visible: e.target.checked };
+        Plotly.restyle("plot", update, [1, 2]);
     }
 
     const displayProtanopiaLocus = (e) => {
-        const update = {visible: e.target.checked};
+        const update = { visible: e.target.checked };
         Plotly.restyle("plot", update, [3]);
+    }
+
+    const displaysRGBGamut = (e) => {
+        const update = { visible: e.target.checked };
+        Plotly.restyle("plot", update, [4]);
+    }
+
+    const project = () => {
+        const plane1 = calculatePlane(white, invariant1);
+        const plane2 = calculatePlane(white, invariant2);
+        const res = projectColorOnNormalForProtanopia(plane1,
+            plane2,
+            white,
+            [parseFloat(l.current.value),
+            parseFloat(m.current.value),
+            parseFloat(s.current.value)
+            ]);
+        pX.pop();
+        pY.pop();
+        pZ.pop();
+        pX.push(res[0]);
+        pY.push(res[1]);
+        pZ.push(res[2]);
+        const update = { visible: true };
+        Plotly.restyle("plot", update, [5]);
     }
 
     const deriveProtanopiaLocus = () => {
         const plane1 = calculatePlane(white, invariant1);
         const plane2 = calculatePlane(white, invariant2);
-        for (let i=0;i<xData.length;i++) {
-            const res = projectColorOnNormalForProtanopia(plane1, plane2, white, [xData[i],yData[i],zData[i]]);
+        for (let i = 0; i < xData.length; i++) {
+            const res = projectColorOnNormalForProtanopia(plane1, plane2, white, [xData[i], yData[i], zData[i]]);
             pxData.push(res[0]);
             pyData.push(res[1]);
             pzData.push(res[2]);
@@ -43,7 +81,7 @@ const Locus = ({invariant1, invariant2, white}) => {
     deriveProtanopiaLocus();
 
     const layout = {
-        height: 800,
+        height: 750,
         name: 'Spectral locus',
         showlegend: true,
         legend: {
@@ -114,7 +152,7 @@ const Locus = ({invariant1, invariant2, white}) => {
             size: 6,
             opacity: 1
         },
-        visible:true
+        visible: true
     }
 
     const protanopiaLocus = {
@@ -124,6 +162,27 @@ const Locus = ({invariant1, invariant2, white}) => {
         visible: false,
         type: "scatter3d",
         mode: "lines+markers",
+        line: {
+            width: 2,
+            color: '#000000'
+        },
+        marker: {
+            size: 6,
+            opacity: 1
+        }
+    }
+
+    const sRGB = {
+        x: rData,
+        y: gData,
+        z: bData,
+        visible: false,
+        type: "scatter3d",
+        mode: "lines",
+        line: {
+            width: 2,
+            color: '#000000'
+        }
     }
 
     const plane1 = {
@@ -148,10 +207,24 @@ const Locus = ({invariant1, invariant2, white}) => {
         i: [0],
         j: [1],
         k: [2],
-        visible:false
+        visible: false
     }
+    const projectedPointTrace = {
+        x: pX,
+        y: pY,
+        z: pZ,
+        type: "scatter3d",
+        mode: "markers",
+        marker: {
+            size: 6,
+            opacity: 1
+        },
+        visible: false,
+        color: "greenColor"
+    };
 
-    const data = [lmsTrace, plane1, plane2, protanopiaLocus];
+
+    const data = [lmsTrace, plane1, plane2, protanopiaLocus, sRGB, projectedPointTrace];
 
     useEffect(() => {
         Plotly.newPlot("plot", data, layout);
@@ -165,7 +238,7 @@ const Locus = ({invariant1, invariant2, white}) => {
                     <FormCheck
                         type="switch"
                         label="Show projection plane"
-                        onChange={(e) => handleProjectionPlaneEnabled(e)}
+                        onChange={(e) => displayProjectionPlane(e)}
                     />
                     <FormCheck
                         type="switch"
@@ -175,10 +248,25 @@ const Locus = ({invariant1, invariant2, white}) => {
                     <FormCheck
                         type="switch"
                         label="Show sRGB Gamut"
-                        onChange={(e) => handleProjectionPlaneEnabled(e)}
+                        onChange={(e) => displaysRGBGamut(e)}
                     />
+                    <div>You can enter LMS values and see where the projection lies(make sure you enable the projection plane
+                        <InputGroup className="col col-sm-3">
+                            <InputGroup.Text id="basic-addon1">L</InputGroup.Text>
+                            <FormControl key="l" ref={l} />
+                        </InputGroup>
+                        <InputGroup className="col col-sm-3">
+                            <InputGroup.Text id="basic-addon1">M</InputGroup.Text>
+                            <FormControl key="m" ref={m} />
+                        </InputGroup>
+                        <InputGroup className="col col-sm-3">
+                            <InputGroup.Text id="basic-addon1">S</InputGroup.Text>
+                            <FormControl key="s" ref={s} />
+                        </InputGroup>
+                        <Button className="col col-sm-2" onClick={project}>Project</Button>
+
+                    </div>
                 </div>
-                {/* <LocusVisualizer isPlaneVisible={plane[i]} isProtanopeLocusVisible={false} isSRGBGamutVisible={false}></LocusVisualizer> */}
                 <div id="plot"></div>
             </Content>
         </Wrapper>
