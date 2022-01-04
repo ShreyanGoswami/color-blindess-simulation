@@ -31,6 +31,9 @@ const Locus = ({ invariant1, invariant2, white }) => {
     const pX = []
     const pY = []
     const pZ = []
+    const originalX = []
+    const originalY = []
+    const originalZ = []
 
     const displayProjectionPlane = (e) => {
         const update = { visible: e.target.checked };
@@ -50,21 +53,32 @@ const Locus = ({ invariant1, invariant2, white }) => {
     const project = () => {
         const plane1 = calculatePlane(white, invariant1);
         const plane2 = calculatePlane(white, invariant2);
+        const original = [parseFloat(l.current.value),
+        parseFloat(m.current.value),
+        parseFloat(s.current.value)]
+        originalX.length = 0;
+        originalY.length = 0;
+        originalZ.length = 0;
+        originalX.push(original[0]);
+        originalY.push(original[1]);
+        originalZ.push(original[2]);
+
         const res = projectColorOnNormalForProtanopia(plane1,
             plane2,
             white,
-            [parseFloat(l.current.value),
-            parseFloat(m.current.value),
-            parseFloat(s.current.value)
-            ]);
-        pX.pop();
-        pY.pop();
-        pZ.pop();
+            original);
+        pX.length=0;
+        pY.length=0;
+        pZ.length=0;
+        
+
         pX.push(res[0]);
         pY.push(res[1]);
+
         pZ.push(res[2]);
+
         const update = { visible: true };
-        Plotly.restyle("plot", update, [5]);
+        Plotly.restyle("plot", update, [5,6]);
     }
 
     const deriveProtanopiaLocus = () => {
@@ -220,11 +234,26 @@ const Locus = ({ invariant1, invariant2, white }) => {
             opacity: 1
         },
         visible: false,
-        color: "greenColor"
+        color: "greenColor",
+        name: "Simulated"
+    };
+    const originalPointTrace = {
+        x: originalX,
+        y: originalY,
+        z: originalZ,
+        type: "scatter3d",
+        mode: "markers",
+        marker: {
+            size: 6,
+            opacity: 1
+        },
+        visible: false,
+        color: "blackColor",
+        name: "Original"
     };
 
 
-    const data = [lmsTrace, plane1, plane2, protanopiaLocus, sRGB, projectedPointTrace];
+    const data = [lmsTrace, plane1, plane2, protanopiaLocus, sRGB, projectedPointTrace, originalPointTrace];
 
     useEffect(() => {
         Plotly.newPlot("plot", data, layout);
@@ -250,7 +279,8 @@ const Locus = ({ invariant1, invariant2, white }) => {
                         label="Show sRGB Gamut"
                         onChange={(e) => displaysRGBGamut(e)}
                     />
-                    <div>You can enter LMS values and see where the projection lies(make sure you enable the projection plane
+                    You can enter LMS values and see where the projection lies. Make sure to enable the projection plane so that you can see the projected point
+                    <div className="input-group">
                         <InputGroup className="col col-sm-3">
                             <InputGroup.Text id="basic-addon1">L</InputGroup.Text>
                             <FormControl key="l" ref={l} />
