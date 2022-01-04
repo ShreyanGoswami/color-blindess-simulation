@@ -47,7 +47,7 @@ const Home = () => {
         <Header></Header>
         <Info title={data[getId(1, data)][title]} data={data[getId(1, data)][text]}></Info>
         <Info title={data[getId(2, data)][title]} data={data[getId(2, data)][text]}></Info>
-        <Intuition title={data[getId(9, data)][title]} data={data[getId(9, data)][text]} mathConfig={mathJaxConfig}></Intuition>
+        <Intuition title={data[getId(9, data)][title]} data={data[getId(9, data)][text]} mathConfig={mathJaxConfig} invariant1={LMS1} invariant2={LMS2} white={neutralWhite}></Intuition>
         <Info title={data[getId(3, data)][title]} data={data[getId(3, data)][text]}></Info>
         <Info title={data[getId(4, data)][title]} data={data[getId(4, data)][text]}></Info>
         <Normal title={data[getId(5, data)][title]} data={data[getId(5, data)][text]} mathConfig={mathJaxConfig} lms1={LMS1} lms2={LMS2} white={neutralWhite}></Normal>

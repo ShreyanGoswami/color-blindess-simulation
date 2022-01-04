@@ -10,11 +10,14 @@ import xData from '../../assets/lData';
 import yData from '../../assets/mData';
 import zData from '../../assets/sData';
 
-import pxData from "../../assets/pxData";
-import pyData from "../../assets/pyData";
-import pzData from "../../assets/pzData";
+import { calculatePlane, projectColorOnNormalForProtanopia } from "../../compute/Normal";
 
-const Locus = () => {
+
+const Locus = ({invariant1, invariant2, white}) => {
+
+    const pxData = [];
+    const pyData = [];
+    const pzData = [];
 
     const handleProjectionPlaneEnabled = (e) => {
         const update = {visible: e.target.checked};
@@ -25,6 +28,19 @@ const Locus = () => {
         const update = {visible: e.target.checked};
         Plotly.restyle("plot", update, [3]);
     }
+
+    const deriveProtanopiaLocus = () => {
+        const plane1 = calculatePlane(white, invariant1);
+        const plane2 = calculatePlane(white, invariant2);
+        for (let i=0;i<xData.length;i++) {
+            const res = projectColorOnNormalForProtanopia(plane1, plane2, white, [xData[i],yData[i],zData[i]]);
+            pxData.push(res[0]);
+            pyData.push(res[1]);
+            pzData.push(res[2]);
+        }
+    }
+
+    deriveProtanopiaLocus();
 
     const layout = {
         height: 800,
